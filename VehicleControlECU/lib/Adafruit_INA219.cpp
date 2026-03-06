@@ -44,7 +44,7 @@ float INA219::getShuntVoltage()
 
 float INA219::getCurrent()
 {
-    int rawCurrent = readRegister(REG_CURRENT);
+    int16_t rawCurrent = (int16_t)readRegister(REG_CURRENT);
     return rawCurrent * currentLSB;
 }
 

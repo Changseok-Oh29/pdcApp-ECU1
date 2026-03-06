@@ -51,7 +51,7 @@ bool PiRacerController::initialize()
         // Setup periodic state broadcast timer (10Hz)
         m_stateTimer = new QTimer(this);
         connect(m_stateTimer, &QTimer::timeout, this, [this]() {
-            emit vehicleStateChanged(m_currentGear, m_currentSpeed, getBatteryLevel());
+            emit vehicleStateChanged(m_currentGear, m_currentSpeed, getBatteryVoltage(), getBatteryCurrent());
         });
         m_stateTimer->start(100);  // 10Hz = 100ms interval
 
@@ -153,10 +153,18 @@ void PiRacerController::onDistanceDataReceived(float distanceCm)
     emit gearDistanceChanged(m_currentGear, m_currentGear, m_currentDistance);
 }
 
-uint8_t PiRacerController::getBatteryLevel() const
+uint16_t PiRacerController::getBatteryVoltage() const
 {
     if (m_batteryMonitor) {
-        return m_batteryMonitor->getPercentage();
+        return static_cast<uint16_t>(m_batteryMonitor->getVoltage() * 1000.0f);
+    }
+    return 0;
+}
+
+int16_t PiRacerController::getBatteryCurrent() const
+{
+    if (m_batteryMonitor) {
+        return static_cast<int16_t>(m_batteryMonitor->getCurrent());
     }
     return 0;
 }

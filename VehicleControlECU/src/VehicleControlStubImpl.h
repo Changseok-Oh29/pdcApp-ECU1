@@ -23,7 +23,7 @@ public:
     
 private slots:
     void onGearDistanceChanged(QString newGear, QString oldGear, uint16_t distance);
-    void onVehicleStateChanged(QString gear, uint16_t speed, uint8_t battery);
+    void onVehicleStateChanged(QString gear, uint16_t speed, uint16_t voltage, int16_t current);
     
 private:
     PiRacerController* m_piracerController;

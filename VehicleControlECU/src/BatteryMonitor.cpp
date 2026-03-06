@@ -1,6 +1,5 @@
 #include "BatteryMonitor.h"
 #include <QDebug>
-#include <algorithm>
 
 BatteryMonitor::BatteryMonitor(QObject *parent)
     : QObject(parent)
@@ -49,14 +48,3 @@ float BatteryMonitor::getCurrent()
     }
 }
 
-uint8_t BatteryMonitor::getPercentage()
-{
-    float voltage = getVoltage();
-    return static_cast<uint8_t>(voltageToPercentage(voltage));
-}
-
-float BatteryMonitor::voltageToPercentage(float voltage)
-{
-    float percentage = ((voltage - MIN_VOLTAGE) / (MAX_VOLTAGE - MIN_VOLTAGE)) * 100.0f;
-    return std::clamp(percentage, 0.0f, 100.0f);
-}

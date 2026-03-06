@@ -27,11 +27,12 @@ public:
     QString getCurrentGear() const { return m_currentGear; }
     uint16_t getCurrentSpeed() const { return m_currentSpeed; }
     uint16_t getCurrentDistance() const { return m_currentDistance; }
-    uint8_t getBatteryLevel() const;
+    uint16_t getBatteryVoltage() const;  // Returns voltage in mV
+    int16_t getBatteryCurrent() const;   // Returns current in mA
 
 signals:
     void gearDistanceChanged(QString newGear, QString oldGear, uint16_t distance);
-    void vehicleStateChanged(QString gear, uint16_t speed, uint8_t battery);
+    void vehicleStateChanged(QString gear, uint16_t speed, uint16_t voltage, int16_t current);
 
 private slots:
     void onSpeedDataReceived(float speedCms);

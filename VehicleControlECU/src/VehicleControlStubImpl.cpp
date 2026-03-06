@@ -69,21 +69,23 @@ void VehicleControlStubImpl::onGearDistanceChanged(QString newGear, QString oldG
     }
 }
 
-void VehicleControlStubImpl::onVehicleStateChanged(QString gear, uint16_t speed, uint8_t battery)
+void VehicleControlStubImpl::onVehicleStateChanged(QString gear, uint16_t speed, uint16_t voltage, int16_t current)
 {
     uint64_t timestamp = QDateTime::currentMSecsSinceEpoch();
-    
+
     fireVehicleStateChangedEvent(gear.toStdString(),
                                  speed,
-                                 battery,
+                                 voltage,
+                                 current,
                                  timestamp);
-    
+
     // Log periodically (every 1 second worth of updates at 10Hz = every 10 calls)
     static int callCount = 0;
     if (++callCount % 10 == 0) {
         qDebug() << "📡 [Event] vehicleStateChanged:"
                  << "Gear:" << gear
                  << "Speed:" << speed << "cm/s"
-                 << "Battery:" << battery << "%";
+                 << "Voltage:" << voltage << "mV"
+                 << "Current:" << current << "mA";
     }
 }
